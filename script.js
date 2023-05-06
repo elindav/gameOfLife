@@ -70,11 +70,6 @@ var matrix = [];
             predatorArr.push(grAllergy);
           }
 
-        // else if (matrix[y][x] == 6) {
-        //     let amen = new Amenaker(x, y);
-        //    amenakerArr.push(amen);
-    
-      //}
     }
   }
   
