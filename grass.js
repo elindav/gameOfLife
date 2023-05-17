@@ -1,8 +1,9 @@
-class Grass extends LivingCreature {
+const LivingCreature = require("./livingCreature")
+module.exports=class Grass extends LivingCreature {
   mul() {
     this.multiply++;
     const emptyCells = this.chooseCell(0);
-    const newCell = random(emptyCells);
+    const newCell = this.random(emptyCells);
 
     if (newCell && this.multiply >= 8) {
       const newX = newCell[0];

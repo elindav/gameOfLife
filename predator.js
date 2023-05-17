@@ -1,4 +1,5 @@
-class Predator {
+const LivingCreature = require("./livingCreature")
+module.exports=class Predator extends LivingCreature {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -26,26 +27,10 @@ class Predator {
       [this.x + 1, this.y + 1],
     ];
   }
-  chooseCell(char) {
-    this.getNewCordinates();
-    let result = [];
-
-    for (let i = 0; i < this.directions.length; i++) {
-      let x = this.directions[i][0];
-      let y = this.directions[i][1];
-
-      if (y < matrix.length && y >= 0 && x < matrix[0].length && x >= 0) {
-        if (matrix[y][x] == char) {
-          result.push(this.directions[i]);
-        }
-      }
-    }
-
-    return result;
-  }
+  
   mul() {
     let found = this.chooseCell(0);
-    let exact = random(found);
+    let exact = this.random(found);
 
     if (exact && this.energy > 8) {
       let x = exact[0];
@@ -62,8 +47,8 @@ class Predator {
     let found1 = this.chooseCell(1);
     let found2 = this.chooseCell(2);
     let found = [found1, found2];
-    let randomfound = random(found);
-    let exact = random(randomfound);
+    let randomfound = this.random(found);
+    let exact = this.random(randomfound);
     if (exact) {
       this.energy += 5;
       let x = exact[0];
@@ -96,7 +81,7 @@ class Predator {
   }
   move() {
     let found = this.chooseCell(0);
-    let exact = random(found);
+    let exact = this.random(found);
 
     if (exact) {
       let x = exact[0];
@@ -129,32 +114,4 @@ class Predator {
     matrix[this.y][this.x] = 0;
   }
 }
-function matrixGenerator(
-  matrixSize,
-  grassCount,
-  grassEaterCount,
-  predatorCount
-) {
-  for (let i = 0; i < matrixSize; i++) {
-    matrix[i] = [];
-    for (let o = 0; o < matrixSize; o++) {
-      matrix[i][o] = 0;
-    }
-  }
-  for (let i = 0; i < grassCount; i++) {
-    const x = Math.floor(random(matrixSize));
-    const y = Math.floor(random(matrixSize));
-    matrix[y][x] = 1;
-  }
-  for (let i = 0; i < grassEaterCount; i++) {
-    const x = Math.floor(random(matrixSize));
-    const y = Math.floor(random(matrixSize));
-    matrix[y][x] = 2;
-  }
-  for (let i = 0; i < predatorCount; i++) {
-    const x = Math.floor(random(matrixSize));
-    const y = Math.floor(random(matrixSize));
-    matrix[y][x] = 5;
-  }
-  matrixGenerator(20, 50, 20, 20);
-}
+

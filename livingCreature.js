@@ -1,4 +1,4 @@
-class LivingCreature {
+module.exports=class LivingCreature {
   constructor(x, y, index) {
     this.x = x;
     this.y = y;
@@ -27,5 +27,9 @@ class LivingCreature {
       }
     }
     return found;
+  }
+  random(arr){
+let result = Math.floor(Math.random()*arr.length)
+return arr[result];
   }
 }

@@ -1,4 +1,5 @@
-class GrassEaterEater extends LivingCreature {
+const LivingCreature = require("./livingCreature")
+module.exports=class GrassEaterEater extends LivingCreature {
   constructor(x, y, index) {
     super(x, y, index);
     this.x = x;
@@ -26,7 +27,7 @@ class GrassEaterEater extends LivingCreature {
 
   move() {
     const emptyCells = this.chooseCell(0);
-    const newCell = random(emptyCells);
+    const newCell = this.random(emptyCells);
     if (newCell) {
       const newX = newCell[0];
       const newY = newCell[1];
@@ -39,7 +40,7 @@ class GrassEaterEater extends LivingCreature {
 
   eat() {
     const grassEaterCells = this.chooseCell(2);
-    const newCell = random(grassEaterCells);
+    const newCell = this.random(grassEaterCells);
     if (newCell) {
       const newX = newCell[0];
       const newY = newCell[1];
