@@ -62,7 +62,7 @@ function matrixGenerator(
     let y = Math.floor(random(matrixSize));
     matrix[y][x] = 5;
   }
-io.emit("senc matrix",matrix)
+io.emit("send matrix",matrix)
 }
 matrixGenerator(20, 50, 20, 20, 10, 10);
 
@@ -94,7 +94,7 @@ function createObj() {
       }
     }
   }
-  io.emit("senc matrix",matrix)
+  io.emit("send matrix",matrix)
 }
 function play() {
   for (let i in grassArr) {
@@ -113,7 +113,7 @@ function play() {
   for (let i in predatorArr) {
     predatorArr[i].eat();
   }
-  io.emit("senc matrix",matrix)
+  io.emit("send matrix",matrix)
 }
 setInterval(play, 500)
 
