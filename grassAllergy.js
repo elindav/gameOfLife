@@ -1,5 +1,5 @@
-const LivingCreature = require("./livingCreature")
-module.exports=class GrassAllergy extends LivingCreature {
+const LivingCreature = require("./livingCreature");
+module.exports = class GrassAllergy extends LivingCreature {
   constructor(x, y, index) {
     super(x, y, index);
     this.x = x;
@@ -27,12 +27,12 @@ module.exports=class GrassAllergy extends LivingCreature {
 
   move() {
     const emptyCells = this.chooseCell(0);
-    const newCell =this.random(emptyCells);
+    const newCell = this.random(emptyCells);
     if (newCell) {
       const newX = newCell[0];
       const newY = newCell[1];
       matrix[newY][newX] = matrix[this.y][this.x];
-      matrix[this.y][this.x] = 0;
+      matrix[this.y][this.x] = 1;
       this.x = newX;
       this.y = newY;
     }
@@ -72,4 +72,4 @@ module.exports=class GrassAllergy extends LivingCreature {
       }
     }
   }
-}
+};

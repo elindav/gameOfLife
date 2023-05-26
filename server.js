@@ -1,16 +1,15 @@
-var express = require('express');
+var express = require("express");
 var app = express();
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+var server = require("http").createServer(app);
+var io = require("socket.io")(server);
 
 app.use(express.static("."));
 
-app.get('/', function (req, res) {
-  res.redirect('index.html');
+app.get("/", function (req, res) {
+  res.redirect("index.html");
 });
 
 server.listen(3000);
-
 
 matrix = [];
 grassArr = [];
@@ -20,7 +19,7 @@ grassAllergyArr = [];
 predatorArr = [];
 
 function random(num) {
-  return Math.floor(Math.random() * num)
+  return Math.floor(Math.random() * num);
 }
 
 function matrixGenerator(
@@ -29,7 +28,7 @@ function matrixGenerator(
   grassEaterCount,
   predatorCount,
   grassAllergyCount,
-  grassEaterEaterCount,
+  grassEaterEaterCount
 ) {
   for (let i = 0; i < matrixSize; i++) {
     matrix[i] = [];
@@ -62,16 +61,41 @@ function matrixGenerator(
     let y = Math.floor(random(matrixSize));
     matrix[y][x] = 5;
   }
-io.emit("send matrix",matrix)
+
+  io.emit("send matrix", matrix);
 }
 matrixGenerator(20, 50, 20, 20, 10, 10);
 
-const Grass = require("./grass")
-const GrassAllergy = require("./grassAllergy")
-const GrassEater = require("./grassEater")
-const GrassEaterEater = require("./grassEaterEater")
-const Predator = require("./predator")
+function checkIfEverythingExists() {
+  let counts = [];
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      const item = matrix[i][j];
+      if (!counts[item]) {
+        counts[item] = 0;
+      }
 
+      counts[item]++;
+    }
+  }
+
+  let exists = true;
+
+  for (let i = 0; i < counts.length; i++) {
+    if (counts[i] === undefined) {
+      console.log(`${i} is dead`);
+      exists = false;
+    }
+  }
+
+  return exists;
+}
+
+const Grass = require("./grass");
+const GrassAllergy = require("./grassAllergy");
+const GrassEater = require("./grassEater");
+const GrassEaterEater = require("./grassEaterEater");
+const Predator = require("./predator");
 
 function createObj() {
   for (var y = 0; y < matrix.length; y++) {
@@ -94,7 +118,7 @@ function createObj() {
       }
     }
   }
-  io.emit("send matrix",matrix)
+  io.emit("send matrix", matrix);
 }
 function play() {
   for (let i in grassArr) {
@@ -113,10 +137,11 @@ function play() {
   for (let i in predatorArr) {
     predatorArr[i].eat();
   }
-  io.emit("send matrix",matrix)
+
+  console.log({ exists: checkIfEverythingExists() });
+
+  io.emit("send matrix", matrix);
 }
-setInterval(play, 500)
+setInterval(play, 500);
 
-createObj()
-
-
+createObj();

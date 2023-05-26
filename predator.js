@@ -1,9 +1,8 @@
-const LivingCreature = require("./livingCreature")
-module.exports=class Predator extends LivingCreature {
+const LivingCreature = require("./livingCreature");
+module.exports = class Predator extends LivingCreature {
   constructor(x, y) {
-super(x,y)
+    super(x, y);
     this.energy = 20;
-
   }
   getNewCordinates() {
     this.directions = [
@@ -17,7 +16,7 @@ super(x,y)
       [this.x + 1, this.y + 1],
     ];
   }
-  
+
   mul() {
     let found = this.chooseCell(0);
     let exact = this.random(found);
@@ -48,9 +47,9 @@ super(x,y)
         if (grassArr[i].x == x && grassArr[i].y == y) {
           grassArr.splice(i, 1);
         } else {
-          for (let i = 0; i < grassEaterArr.length; i++) {
-            if (grassEaterArr[i].x == x && grassEaterArr[i].y == y) {
-              grassEaterArr.splice(i, 1);
+          for (let i = 0; i < grassEaterEaterArr.length; i++) {
+            if (grassEaterEaterArr[i].x == x && grassEaterEaterArr[i].y == y) {
+              grassEaterEaterArr.splice(i, 1);
             }
           }
         }
@@ -96,12 +95,14 @@ super(x,y)
     }
   }
   die() {
-    for (let i = 0; i < grassEaterArr.length; i++) {
-      if (grassEaterArr[i].x == this.x && grassEaterArr[i].y == this.y) {
-        grassEaterArr.splice(i, 1);
+    for (let i = 0; i < grassEaterEaterArr.length; i++) {
+      if (
+        grassEaterEaterArr[i].x == this.x &&
+        grassEaterEaterArr[i].y == this.y
+      ) {
+        grassEaterEaterArr.splice(i, 1);
       }
     }
     matrix[this.y][this.x] = 0;
   }
-}
-
+};
