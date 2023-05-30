@@ -28,7 +28,8 @@ function matrixGenerator(
   grassEaterCount,
   predatorCount,
   grassAllergyCount,
-  grassEaterEaterCount
+  grassEaterEaterCount,
+  rockCount
 ) {
   for (let i = 0; i < matrixSize; i++) {
     matrix[i] = [];
@@ -61,35 +62,13 @@ function matrixGenerator(
     let y = Math.floor(random(matrixSize));
     matrix[y][x] = 5;
   }
-
-  io.emit("send matrix", matrix);
-}
-matrixGenerator(20, 50, 20, 20, 10, 10);
-
-function checkIfEverythingExists() {
-  let counts = [];
-  for (let i = 0; i < matrix.length; i++) {
-    for (let j = 0; j < matrix[i].length; j++) {
-      const item = matrix[i][j];
-      if (!counts[item]) {
-        counts[item] = 0;
-      }
-
-      counts[item]++;
-    }
+  for (let i = 0; i < rockCount; i++) {
+    let x = Math.floor(random(matrixSize));
+    let y = Math.floor(random(matrixSize));
+    matrix[y][x] = 6;
   }
-
-  let exists = true;
-
-  for (let i = 0; i < counts.length; i++) {
-    if (counts[i] === undefined) {
-      console.log(`${i} is dead`);
-      exists = false;
-    }
-  }
-
-  return exists;
 }
+matrixGenerator(20, 50, 20, 20, 10, 10, 5);
 
 const Grass = require("./grass");
 const GrassAllergy = require("./grassAllergy");
@@ -118,7 +97,6 @@ function createObj() {
       }
     }
   }
-  io.emit("send matrix", matrix);
 }
 function play() {
   for (let i in grassArr) {
@@ -128,20 +106,25 @@ function play() {
   for (let i in grassEaterArr) {
     grassEaterArr[i].eat();
   }
+
   for (let i in grassEaterEaterArr) {
     grassEaterEaterArr[i].eat();
   }
+
   for (let i in grassAllergyArr) {
     grassAllergyArr[i].eat();
   }
+
   for (let i in predatorArr) {
     predatorArr[i].eat();
   }
 
-  console.log({ exists: checkIfEverythingExists() });
-
   io.emit("send matrix", matrix);
+
+  io.emit("stats", grassArr.length);
 }
+
+play();
 setInterval(play, 500);
 
 createObj();

@@ -26,6 +26,7 @@ const color = {
   background: "#acacac",
   grassEaterEater: "purple",
   predator: "blue",
+  rock: "black",
 };
 function changetoOriginal() {
   color.grass = "green";
@@ -68,28 +69,16 @@ function drawGame(matrix) {
         fill(color.grassAllergy);
       } else if (matrix[y][x] == 5) {
         fill(color.grassEaterEater);
+      } else if (matrix[y][x] == 6) {
+        fill(color.rock);
       }
       rect(x * side, y * side, side, side);
     }
   }
 }
-function getGrassCount(m) {
-  let grassCount = 0;
-  for (let x = 0; x < m.length; x++) {
-    for (let y = 0; y < m[x].length; y++) {
-      if (m[x][y] === 1) {
-        grassCount++;
-      }
-    }
-  }
-  return grassCount;
-}
-function writeStatistics(m) {
+function writeStatistics(grassArrStats) {
   const stat = document.getElementById("statisticsNum");
-  stat.innerText = getGrassCount(m);
+  stat.innerText = grassArrStats;
 }
-function onSendMatrix(m) {
-  drawGame(m);
-  writeStatistics(m);
-}
-socket.on("send matrix", onSendMatrix);
+socket.on("send matrix", drawGame);
+socket.on("stats", writeStatistics);
